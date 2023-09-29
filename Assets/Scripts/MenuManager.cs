@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
@@ -30,12 +31,6 @@ public class MenuManager : MonoBehaviour
         ChangeMenu((int)MenuState.Main);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void ChangeMenu(int state) 
     {
         this.state = (MenuState)state;
@@ -46,10 +41,15 @@ public class MenuManager : MonoBehaviour
         winScreen.SetActive(false);
         loseScreen.SetActive(false);
         creditsScreen.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
 
         switch (this.state)
         {
             case MenuState.None:
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
                 break;
 
             case MenuState.Main:
@@ -76,5 +76,27 @@ public class MenuManager : MonoBehaviour
                 creditsScreen.SetActive(true);
                 break;
         }
+    }
+
+    public void OptionsButton()
+    {
+        if (ProgramManager.CheckScene() == "MainMenu")
+        {
+            ProgramManager.LoadMainMenu();
+            ProgramManager.ResumeGame();
+            ChangeMenu(1);
+        }
+        else
+        {
+            if (ProgramManager.CheckScene() == "Gameplay")
+            {
+                ChangeMenu(3);
+            }
+        }
+    }
+
+    public int CheckState()
+    {
+        return (int)state;
     }
 }

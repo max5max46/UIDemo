@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // Sam Robichaud 2022
@@ -8,7 +9,7 @@ using UnityEngine;
 
 public class FirstPersonController_Sam : MonoBehaviour
 {
-    public bool canMove { get; private set; } = true;
+    public bool canMove { get; set; } = true;
     private bool isRunning => canRun && Input.GetKey(runKey);
     private bool shouldJump => Input.GetKeyDown(jumpKey) && characterController.isGrounded;
     private bool shouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
