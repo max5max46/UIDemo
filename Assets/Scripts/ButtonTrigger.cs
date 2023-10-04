@@ -11,7 +11,7 @@ public class ButtonTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             if (winButton)
-                ProgramManager.WinGame();
+                ProgramManager.WinLevel();
             else
                 ProgramManager.LoseGame();
         }

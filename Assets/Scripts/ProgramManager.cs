@@ -7,15 +7,14 @@ using UnityEngine.SceneManagement;
 public class ProgramManager : MonoBehaviour
 {
 
-    public static void LoadMainMenu()
+    public static void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(sceneName);
     }
 
-    public static void LoadGameplay()
+    public static void NextScene()
     {
-        SceneManager.LoadScene("Gameplay");
-        FindAnyObjectByType(typeof(FirstPersonController_Sam)).GetComponent<FirstPersonController_Sam>().canMove = true;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public static void PauseGame()
@@ -28,11 +27,15 @@ public class ProgramManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public static void WinGame()
+    public static void WinLevel()
     {
         PauseGame();
         FindAnyObjectByType(typeof(FirstPersonController_Sam)).GetComponent<FirstPersonController_Sam>().canMove = false;
-        FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().ChangeMenu(4);
+
+        if (SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1)
+            FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().ChangeMenu(4);
+        else
+            FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().ChangeMenu(8);
     }
 
     public static void LoseGame()

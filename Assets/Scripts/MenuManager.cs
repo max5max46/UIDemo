@@ -13,14 +13,18 @@ public class MenuManager : MonoBehaviour
         Pause,
         Win,
         Lose,
-        Credits
+        Credits,
+        LevelSelect,
+        LevelWin
     }
 
     private MenuState state;
 
     public GameObject mainMenu;
+    public GameObject levelSelect;
     public GameObject optionsMenu;
     public GameObject pauseMenu;
+    public GameObject levelWinScreen;
     public GameObject winScreen;
     public GameObject loseScreen;
     public GameObject creditsScreen;
@@ -36,8 +40,10 @@ public class MenuManager : MonoBehaviour
         this.state = (MenuState)state;
 
         mainMenu.SetActive(false);
+        levelSelect.SetActive(false);
         optionsMenu.SetActive(false);
         pauseMenu.SetActive(false);
+        levelWinScreen.SetActive(false);
         winScreen.SetActive(false);
         loseScreen.SetActive(false);
         creditsScreen.SetActive(false);
@@ -56,12 +62,20 @@ public class MenuManager : MonoBehaviour
                 mainMenu.SetActive(true);
                 break;
 
+            case MenuState.LevelSelect:
+                levelSelect.SetActive(true);
+                break;
+
             case MenuState.Options:
                 optionsMenu.SetActive(true);
                 break;
 
             case MenuState.Pause:
                 pauseMenu.SetActive(true);
+                break;
+
+            case MenuState.LevelWin:
+                levelWinScreen.SetActive(true);
                 break;
 
             case MenuState.Win:
@@ -82,7 +96,6 @@ public class MenuManager : MonoBehaviour
     {
         if (ProgramManager.CheckScene() == "MainMenu")
         {
-            ProgramManager.LoadMainMenu();
             ProgramManager.ResumeGame();
             ChangeMenu(1);
         }
