@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
@@ -29,10 +30,19 @@ public class MenuManager : MonoBehaviour
     public GameObject loseScreen;
     public GameObject creditsScreen;
 
+    public TextMeshProUGUI gameSavedText;
+
     // Start is called before the first frame update
     void Start()
-    {
+    { 
+        gameSavedText.alpha = 0f;
         ChangeMenu((int)MenuState.Main);
+    }
+
+    void Update()
+    {
+        if (gameSavedText.alpha > 0)
+            gameSavedText.alpha -= 0.001f;
     }
 
     public void ChangeMenu(int state) 
@@ -106,6 +116,11 @@ public class MenuManager : MonoBehaviour
                 ChangeMenu(3);
             }
         }
+    }
+
+    public void GameSavedText()
+    {
+        gameSavedText.alpha = 1;
     }
 
     public int CheckState()
