@@ -104,22 +104,23 @@ public class MenuManager : MonoBehaviour
 
     public void OptionsButton()
     {
-        if (ProgramManager.CheckScene() == "MainMenu")
+        if (ProgramManager.CheckScene() == 0)
         {
             ProgramManager.ResumeGame();
             ChangeMenu(1);
         }
         else
         {
-            if (ProgramManager.CheckScene() == "Gameplay")
+            if (ProgramManager.CheckScene() > 0)
             {
                 ChangeMenu(3);
             }
         }
     }
 
-    public void GameSavedText()
+    public void DisplayCornerText(string text)
     {
+        gameSavedText.text = text;
         gameSavedText.alpha = 1;
     }
 

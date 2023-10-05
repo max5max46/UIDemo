@@ -49,10 +49,10 @@ public class ProgramManager : MonoBehaviour
         FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().ChangeMenu(5);
     }
 
-    public static string CheckScene() 
+    public static int CheckScene() 
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        return currentScene.name;
+        return currentScene.buildIndex;
     }
 
     public static void ExitGame()
@@ -60,15 +60,28 @@ public class ProgramManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void DeleteSaveData()
+    {
+        if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
+        {
+            FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().DisplayCornerText("Save File Deleted");
+            File.Delete(Application.persistentDataPath + "/playerInfo.dat");
+        }
+        else
+        {
+            FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().DisplayCornerText("No Save File Found");
+        }
+
+    }
+
     public void Save()
     {
+        FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().DisplayCornerText("Game Saved");
+
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
 
         PlayerData data = new PlayerData();
-        data.x = FindAnyObjectByType(typeof(FirstPersonController_Sam)).GameObject().transform.position.x;
-        data.z = FindAnyObjectByType(typeof(FirstPersonController_Sam)).GameObject().transform.position.z;
-        data.y = FindAnyObjectByType(typeof(FirstPersonController_Sam)).GameObject().transform.position.y;
         data.sceneIndex = SceneManager.GetActiveScene().buildIndex;
 
         bf.Serialize(file, data);
@@ -79,13 +92,19 @@ public class ProgramManager : MonoBehaviour
     {
         if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
         {
+            FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().DisplayCornerText("Game Loaded");
+
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
             PlayerData data = (PlayerData)bf.Deserialize(file);
             file.Close();
 
             SceneManager.LoadScene(data.sceneIndex);
-            FindFirstObjectByType(typeof(FirstPersonController_Sam)).GameObject().transform.position = new Vector3 (data.x, data.y, data.z);
+            FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().ChangeMenu(0);
+        }
+        else
+        {
+            FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().DisplayCornerText("No Save File Found");
         }
     }
 }
@@ -93,7 +112,4 @@ public class ProgramManager : MonoBehaviour
 class PlayerData
 {
     public int sceneIndex;
-    public float x;
-    public float y;
-    public float z;
 }
