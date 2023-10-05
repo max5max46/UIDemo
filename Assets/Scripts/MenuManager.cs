@@ -16,7 +16,8 @@ public class MenuManager : MonoBehaviour
         Lose,
         Credits,
         LevelSelect,
-        LevelWin
+        LevelWin,
+        GameplayUI
     }
 
     private MenuState state;
@@ -24,6 +25,7 @@ public class MenuManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject levelSelect;
     public GameObject optionsMenu;
+    public GameObject gameplayUI;
     public GameObject pauseMenu;
     public GameObject levelWinScreen;
     public GameObject winScreen;
@@ -42,7 +44,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         if (gameSavedText.alpha > 0)
-            gameSavedText.alpha -= 0.001f;
+            gameSavedText.alpha -= 0.01f;
     }
 
     public void ChangeMenu(int state) 
@@ -52,6 +54,7 @@ public class MenuManager : MonoBehaviour
         mainMenu.SetActive(false);
         levelSelect.SetActive(false);
         optionsMenu.SetActive(false);
+        gameplayUI.SetActive(false);
         pauseMenu.SetActive(false);
         levelWinScreen.SetActive(false);
         winScreen.SetActive(false);
@@ -78,6 +81,10 @@ public class MenuManager : MonoBehaviour
 
             case MenuState.Options:
                 optionsMenu.SetActive(true);
+                break;
+
+            case MenuState.GameplayUI:
+                gameplayUI.SetActive(true);
                 break;
 
             case MenuState.Pause:

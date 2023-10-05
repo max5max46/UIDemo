@@ -8,8 +8,11 @@ public class Singleton : MonoBehaviour
     static Singleton instance;
     void Start()
     {
+        GameManagerTracker.gameManagerCount++;
+
         if (instance != null)
         {
+            GameManagerTracker.gameManagerCount--;
             GameObject.Destroy(gameObject);
         }
         else
