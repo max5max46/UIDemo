@@ -23,8 +23,6 @@ public class MapInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(mapTrans.localPosition.x + " " + mapTrans.localPosition.y + " " + mapTrans.localPosition.z);
-        Debug.Log(lerpTarget);
 
         if (Input.GetKeyDown(KeyCode.M))
             if (!goingUp)

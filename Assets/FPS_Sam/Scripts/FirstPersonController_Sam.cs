@@ -10,14 +10,14 @@ using UnityEngine;
 public class FirstPersonController_Sam : MonoBehaviour
 {
     public bool canMove { get; set; } = true;
-    private bool isRunning => canRun && Input.GetKey(runKey);
+    public bool isRunning => canRun && Input.GetKey(runKey);
     private bool shouldJump => Input.GetKeyDown(jumpKey) && characterController.isGrounded;
     private bool shouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
 
     #region Settings
 
     [Header("Functional Settings")]
-    [SerializeField] private bool canRun = true;
+    public bool canRun = true;
     [SerializeField] private bool canJump = true;
     [SerializeField] private bool canCrouch = true;
     [SerializeField] private bool canUseHeadbob = true;
@@ -117,8 +117,9 @@ public class FirstPersonController_Sam : MonoBehaviour
         playerCamera = GetComponentInChildren<Camera>();
         characterController = GetComponent<CharacterController>();
         defaultYPos = playerCamera.transform.localPosition.y;
-        defaultFOV = playerCamera.fieldOfView;        
+        defaultFOV = playerCamera.fieldOfView;
 
+        ProgramManager.GivePlayer(this);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

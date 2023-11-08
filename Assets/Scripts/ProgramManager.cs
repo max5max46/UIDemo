@@ -11,14 +11,72 @@ using UnityEngine.UIElements;
 public class ProgramManager : MonoBehaviour
 {
 
-    public static int health = 10;
+    public static int maxHealth = 10;
+    public static int health;
+    public static float maxStamina = 100;
+    public static float stamina;
     public static int xp = 0;
     public static int score = 0;
+    private static FirstPersonController_Sam player;
+    private static bool canRun = true; 
+    private static bool runCoolDown;
 
+
+
+    void Start()
+    {
+        health = maxHealth;
+        stamina = maxStamina;
+    }
+
+    void Update()
+    {
+
+        if (player != null)
+        {
+            if (player.isRunning)
+                RemoveStamina(1 * Time.deltaTime * 30);
+            else
+                AddStamina(1 * Time.deltaTime * 45);
+
+            if (stamina > 0.001 * maxStamina && runCoolDown == false)
+                player.canRun = true;
+            else
+            {
+                player.canRun = false;
+                runCoolDown = true;
+            }
+
+            if (stamina > maxStamina * 0.99)
+                runCoolDown = false;
+        }
+
+    }
+
+    public static void GivePlayer(FirstPersonController_Sam playerToGive)
+    {
+        player = playerToGive;
+    }
+
+    public static void AddStamina(float toAdd)
+    {
+        if (stamina < maxStamina)
+            stamina += toAdd;
+        if (stamina > maxStamina)
+            stamina = maxStamina;
+    }
+
+    public static void RemoveStamina(float toRemove)
+    {
+        if (stamina > 0)
+            stamina -= toRemove;
+        if (stamina < 0)
+            stamina = 0;
+    }
 
     public static void AddHealth(int toAdd)
     {
-        if (health < 10)
+        if (health < maxHealth)
             health += toAdd;
     }
 
@@ -76,7 +134,7 @@ public class ProgramManager : MonoBehaviour
     {
         AddScore(1000);
         PauseGame();
-        FindAnyObjectByType(typeof(FirstPersonController_Sam)).GetComponent<FirstPersonController_Sam>().canMove = false;
+        player.canMove = false;
 
         if (SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1)
             FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().ChangeMenu(4);
@@ -88,7 +146,7 @@ public class ProgramManager : MonoBehaviour
     {
         StatReset();
         PauseGame();
-        FindAnyObjectByType(typeof(FirstPersonController_Sam)).GetComponent<FirstPersonController_Sam>().canMove = false;
+        player.canMove = false;
         FindAnyObjectByType(typeof(MenuManager)).GetComponent<MenuManager>().ChangeMenu(5);
     }
 

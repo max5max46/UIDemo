@@ -12,7 +12,6 @@ public class FallDamage : MonoBehaviour
     void Start()
     {
         colorChange = bloodUI.color;
-        Debug.Log(colorChange.ToString());
         bloodUI.gameObject.SetActive(false);
     }
 
