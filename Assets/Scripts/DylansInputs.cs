@@ -6,6 +6,7 @@ using UnityEngine;
 public class DylansInputs : MonoBehaviour
 {
     [SerializeField] private MenuManager menuManager;
+    [SerializeField] private MusicManager musicManager;
 
     // Update is called once per frame
     void Update()
@@ -19,6 +20,7 @@ public class DylansInputs : MonoBehaviour
     public void Pause()
     {
         menuManager.ChangeMenu(3);
+        musicManager.StopMusic();
         ProgramManager.PauseGame();
         FindAnyObjectByType(typeof(FirstPersonController_Sam)).GetComponent<FirstPersonController_Sam>().canMove = false;
     }
@@ -26,6 +28,7 @@ public class DylansInputs : MonoBehaviour
     public void Resume()
     {
         menuManager.ChangeMenu(9);
+        musicManager.PlayMusic();
         ProgramManager.ResumeGame();
         FindAnyObjectByType(typeof(FirstPersonController_Sam)).GetComponent<FirstPersonController_Sam>().canMove = true;
     }
